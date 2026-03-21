@@ -1,3 +1,9 @@
 {
-  "tests/test_infra.py::test_env_redis_url_exists": true
+  "tests/test_infra.py::test_env_redis_url_exists": true,
+  "tests/test_models.py::test_create_user": true,
+  "tests/test_models.py::test_user_email_uniqueness": true,
+  "tests/test_models.py::test_user_username_uniqueness": true,
+  "tests/test_models.py::test_user_default_values": true,
+  "tests/test_models.py::test_create_card_master": true,
+  "tests/test_models.py::test_card_api_id_uniqueness": true
 }
