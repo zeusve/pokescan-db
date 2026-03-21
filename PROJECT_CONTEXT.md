@@ -381,3 +381,25 @@ def downgrade() -> None:
 ### Decisions
 - (summary unavailable)
 
+
+## 24622225: Modelo de Datos: Cards Master (pgvector) (COMPLETED — 2026-03-21T14:12:55Z)
+
+### Files Changed
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	alembic/env.py
+A	alembic/versions/20260321_create_user_cards.py
+A	src/constants.py
+M	src/models.py
+M	src/pokemon_client.py
+M	tests/test_models.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+def upgrade() -> None:
+def downgrade() -> None:
+
+### Decisions
+- (summary unavailable)
+
