@@ -358,3 +358,26 @@ async def test_login_invalid_password(client):
 ### Decisions
 - (summary unavailable)
 
+
+## 24622225: Modelo de Datos: Cards Master (pgvector) (COMPLETED — 2026-03-21T14:08:31Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/lastfailed
+M	.pytest_cache/v/cache/nodeids
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	alembic/env.py
+A	alembic/versions/b8c4d9e3f2a5_update_card_master_vector_dim.py
+M	src/models.py
+M	src/pokemon_client.py
+M	tests/test_models.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+def upgrade() -> None:
+def downgrade() -> None:
+
+### Decisions
+- (summary unavailable)
+
