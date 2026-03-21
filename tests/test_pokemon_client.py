@@ -7,7 +7,6 @@ import httpx
 import pytest
 
 from src.pokemon_client import (
-    CardNotFoundError,
     PokemonTCGClient,
     RateLimitExceededError,
 )
@@ -56,8 +55,9 @@ async def test_get_card_not_found(client: PokemonTCGClient) -> None:
 
     with patch.object(httpx.AsyncClient, "request", new_callable=AsyncMock, return_value=mock_resp):
         async with client:
-            with pytest.raises(CardNotFoundError, match="Card not found: fake-id"):
-                await client.get_card("fake-id")
+            result = await client.get_card("fake-id")
+
+    assert result is None
 
 
 # ── test_rate_limit_retry ────────────────────────────────────────────
@@ -186,8 +186,8 @@ def test_env_defaults() -> None:
 
 
 def test_default_base_url() -> None:
-    """Client falls back to default base URL when env is unset."""
+    """Client falls back to empty base URL when env is unset."""
     with patch.dict("os.environ", {}, clear=True):
         default_client = PokemonTCGClient()
-        assert default_client._base_url == "https://api.pokemontcg.io/v2"
+        assert default_client._base_url == ""
         assert default_client._api_key is None

@@ -6,7 +6,6 @@ from typing import Any, Optional
 
 import httpx
 
-DEFAULT_BASE_URL = "https://api.pokemontcg.io/v2"
 DEFAULT_TIMEOUT = 10.0
 MAX_RETRIES = 3
 INITIAL_BACKOFF = 1.0
@@ -14,10 +13,6 @@ INITIAL_BACKOFF = 1.0
 
 class PokemonTCGClientError(Exception):
     """Base exception for PokemonTCGClient errors."""
-
-
-class CardNotFoundError(PokemonTCGClientError):
-    """Raised when a card is not found (404)."""
 
 
 class RateLimitExceededError(PokemonTCGClientError):
@@ -40,8 +35,7 @@ class PokemonTCGClient:
     ) -> None:
         self._base_url = (
             base_url
-            or os.getenv("POKEMON_TCG_BASE_URL")
-            or DEFAULT_BASE_URL
+            or os.getenv("POKEMON_TCG_BASE_URL", "")
         )
         self._api_key = api_key or os.getenv("POKEMON_TCG_API_KEY")
         self._timeout = timeout
@@ -121,7 +115,7 @@ class PokemonTCGClient:
         response = await self._request_with_retry("GET", f"/cards/{card_id}")
 
         if response.status_code == 404:
-            raise CardNotFoundError(f"Card not found: {card_id}")
+            return None
 
         response.raise_for_status()
         return response.json().get("data", {})
@@ -139,7 +133,7 @@ class PokemonTCGClient:
             RateLimitExceededError: If rate limit retries are exhausted.
         """
         response = await self._request_with_retry(
-            "GET", "/cards", params={"q": query}
+            "GET", "/cards/search", params={"q": query}
         )
 
         response.raise_for_status()
