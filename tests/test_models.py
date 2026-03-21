@@ -1,4 +1,4 @@
-"""Tests for SQLAlchemy ORM models (User, CardMaster)."""
+"""Tests for SQLAlchemy ORM models (User, CardMaster, UserCard)."""
 
 import os
 import uuid
@@ -7,8 +7,10 @@ import pytest
 from dotenv import load_dotenv
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import selectinload
 
-from src.models import CardMaster
+from src.constants import VECTOR_DIM
+from src.models import CardMaster, UserCard
 from src.vision import ImageHasher
 
 load_dotenv()
@@ -117,7 +119,7 @@ async def test_create_card_master():
     from src.database import AsyncSessionLocal
 
     api_id = _random_api_id()
-    test_vector = [0.1] * ImageHasher.VECTOR_DIM
+    test_vector = [0.1] * VECTOR_DIM
 
     async with AsyncSessionLocal() as session:
         card = CardMaster(
@@ -143,7 +145,7 @@ async def test_create_card_master():
             select(CardMaster).where(CardMaster.api_id == api_id)
         )
         fetched = result.scalar_one()
-        assert len(fetched.image_hash) == ImageHasher.VECTOR_DIM
+        assert len(fetched.image_hash) == VECTOR_DIM
         assert abs(fetched.image_hash[0] - 0.1) < 1e-6
 
 
@@ -166,14 +168,16 @@ async def test_card_api_id_uniqueness():
 
 
 def test_card_master_vector_dimension():
-    """Verify that CardMaster vector dimension matches ImageHasher config (P2)."""
+    """Verify that CardMaster vector dimension matches constants and ImageHasher (P2)."""
     column_type = CardMaster.__table__.columns.image_hash.type
+    assert column_type.dim == VECTOR_DIM
     assert column_type.dim == ImageHasher.VECTOR_DIM
+    assert VECTOR_DIM == ImageHasher.VECTOR_DIM
 
 
 def test_card_master_instantiation_with_vector():
     """Verify CardMaster can be instantiated with a VECTOR_DIM-sized vector."""
-    vector = [float(i) / ImageHasher.VECTOR_DIM for i in range(ImageHasher.VECTOR_DIM)]
+    vector = [float(i) / VECTOR_DIM for i in range(VECTOR_DIM)]
     card = CardMaster(
         api_id="test-instantiation",
         name="Test Card",
@@ -181,4 +185,115 @@ def test_card_master_instantiation_with_vector():
         image_hash=vector,
     )
     assert card.image_hash is not None
-    assert len(card.image_hash) == ImageHasher.VECTOR_DIM
+    assert len(card.image_hash) == VECTOR_DIM
+
+
+# --- UserCard (inventory) tests ---
+
+
+@pytest.mark.asyncio
+async def test_add_card_to_user_inventory():
+    """Verify that a UserCard links a User to a CardMaster correctly."""
+    if not os.getenv("DATABASE_URL"):
+        pytest.skip(DB_SKIP_MSG)
+    from src.database import AsyncSessionLocal
+    from src.models import User
+
+    async with AsyncSessionLocal() as session:
+        user = User(email=_random_email(), username=_random_username(), hashed_password="hash_inv")
+        card = CardMaster(api_id=_random_api_id(), name="Charizard", set_id="base1")
+        session.add_all([user, card])
+        await session.commit()
+        await session.refresh(user)
+        await session.refresh(card)
+
+        user_card = UserCard(user_id=user.id, card_master_id=card.id, condition="MINT", location="Binder A")
+        session.add(user_card)
+        await session.commit()
+        await session.refresh(user_card)
+
+        assert user_card.id is not None
+        assert user_card.user_id == user.id
+        assert user_card.card_master_id == card.id
+
+
+@pytest.mark.asyncio
+async def test_user_card_metadata():
+    """Verify that condition, location, and quantity persist correctly."""
+    if not os.getenv("DATABASE_URL"):
+        pytest.skip(DB_SKIP_MSG)
+    from src.database import AsyncSessionLocal
+    from src.models import User
+
+    async with AsyncSessionLocal() as session:
+        user = User(email=_random_email(), username=_random_username(), hashed_password="hash_meta")
+        card = CardMaster(api_id=_random_api_id(), name="Blastoise", set_id="base1")
+        session.add_all([user, card])
+        await session.commit()
+        await session.refresh(user)
+        await session.refresh(card)
+
+        user_card = UserCard(
+            user_id=user.id,
+            card_master_id=card.id,
+            condition="NEAR_MINT",
+            location="Box 1",
+            quantity=3,
+        )
+        session.add(user_card)
+        await session.commit()
+        await session.refresh(user_card)
+
+        assert user_card.condition == "NEAR_MINT"
+        assert user_card.location == "Box 1"
+        assert user_card.quantity == 3
+        assert user_card.created_at is not None
+
+
+@pytest.mark.asyncio
+async def test_relationship_navigation():
+    """Verify bidirectional navigation: User -> UserCard -> CardMaster."""
+    if not os.getenv("DATABASE_URL"):
+        pytest.skip(DB_SKIP_MSG)
+    from src.database import AsyncSessionLocal
+    from src.models import User
+
+    async with AsyncSessionLocal() as session:
+        user = User(email=_random_email(), username=_random_username(), hashed_password="hash_nav")
+        card = CardMaster(api_id=_random_api_id(), name="Venusaur", set_id="base1")
+        session.add_all([user, card])
+        await session.commit()
+        await session.refresh(user)
+        await session.refresh(card)
+
+        user_card = UserCard(user_id=user.id, card_master_id=card.id, condition="PLAYED", location="Deck")
+        session.add(user_card)
+        await session.commit()
+
+    # Re-fetch with eager loading to verify relationship navigation
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(
+            select(User).where(User.id == user.id).options(selectinload(User.cards).selectinload(UserCard.card_master))
+        )
+        fetched_user = result.scalar_one()
+        assert len(fetched_user.cards) == 1
+        assert fetched_user.cards[0].card_master.name == "Venusaur"
+
+
+@pytest.mark.asyncio
+async def test_inventory_integrity_constraints():
+    """Verify that UserCard rejects a non-existent user_id."""
+    if not os.getenv("DATABASE_URL"):
+        pytest.skip(DB_SKIP_MSG)
+    from src.database import AsyncSessionLocal
+
+    async with AsyncSessionLocal() as session:
+        card = CardMaster(api_id=_random_api_id(), name="Mewtwo", set_id="base1")
+        session.add(card)
+        await session.commit()
+        await session.refresh(card)
+
+        user_card = UserCard(user_id=999999, card_master_id=card.id, condition="MINT", location="Box")
+        session.add(user_card)
+        with pytest.raises(IntegrityError):
+            await session.commit()

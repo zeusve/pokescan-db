@@ -13,6 +13,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.database import Base  # noqa: E402
+from src.models import CardMaster, User, UserCard  # noqa: E402, F401
 
 config = context.config
 
