@@ -1,0 +1,8 @@
+[
+  "tests/test_health.py::test_health",
+  "tests/test_security.py::test_hash_is_bcrypt_format",
+  "tests/test_security.py::test_hash_is_nondeterministic",
+  "tests/test_security.py::test_hash_not_plaintext",
+  "tests/test_security.py::test_verify_correct_password",
+  "tests/test_security.py::test_verify_wrong_password"
+]
