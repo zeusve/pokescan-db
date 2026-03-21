@@ -196,3 +196,17 @@ async def test_async_session_factory():
 ### Decisions
 - (summary unavailable)
 
+
+## b5558977: Configurar SQLAlchemy y Alembic (COMPLETED — 2026-03-21T13:14:14Z)
+
+### Files Changed
+M	PROJECT_CONTEXT.md
+M	src/pokemon_client.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
