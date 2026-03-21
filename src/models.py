@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from pgvector.sqlalchemy import Vector
 
 from .database import Base
+from .vision import ImageHasher
 
 
 class User(Base):
@@ -38,7 +39,9 @@ class CardMaster(Base):
     name: Mapped[str] = mapped_column(String, nullable=False)
     set_id: Mapped[str] = mapped_column(String, index=True, nullable=False)
     rarity: Mapped[str | None] = mapped_column(String, nullable=True)
-    image_hash = mapped_column(Vector(64), nullable=True)
+    image_hash: Mapped[list[float] | None] = mapped_column(
+        Vector(ImageHasher.VECTOR_DIM), nullable=True
+    )
     created_at = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

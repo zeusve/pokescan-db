@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
+from src.models import CardMaster
+from src.vision import ImageHasher
+
 load_dotenv()
 
 DB_SKIP_MSG = "DATABASE_URL not set — requires a running PostgreSQL instance"
@@ -108,14 +111,13 @@ def _random_api_id() -> str:
 
 @pytest.mark.asyncio
 async def test_create_card_master():
-    """Verify that a CardMaster with a 64-dim vector can be persisted and retrieved."""
+    """Verify that a CardMaster with a VECTOR_DIM-dim vector can be persisted and retrieved."""
     if not os.getenv("DATABASE_URL"):
         pytest.skip(DB_SKIP_MSG)
     from src.database import AsyncSessionLocal
-    from src.models import CardMaster
 
     api_id = _random_api_id()
-    test_vector = [0.1] * 64
+    test_vector = [0.1] * ImageHasher.VECTOR_DIM
 
     async with AsyncSessionLocal() as session:
         card = CardMaster(
@@ -141,7 +143,7 @@ async def test_create_card_master():
             select(CardMaster).where(CardMaster.api_id == api_id)
         )
         fetched = result.scalar_one()
-        assert len(fetched.image_hash) == 64
+        assert len(fetched.image_hash) == ImageHasher.VECTOR_DIM
         assert abs(fetched.image_hash[0] - 0.1) < 1e-6
 
 
@@ -151,7 +153,6 @@ async def test_card_api_id_uniqueness():
     if not os.getenv("DATABASE_URL"):
         pytest.skip(DB_SKIP_MSG)
     from src.database import AsyncSessionLocal
-    from src.models import CardMaster
 
     api_id = _random_api_id()
     async with AsyncSessionLocal() as session:
@@ -162,3 +163,22 @@ async def test_card_api_id_uniqueness():
         session.add(CardMaster(api_id=api_id, name="Card B", set_id="set2"))
         with pytest.raises(IntegrityError):
             await session.commit()
+
+
+def test_card_master_vector_dimension():
+    """Verify that CardMaster vector dimension matches ImageHasher config (P2)."""
+    column_type = CardMaster.__table__.columns.image_hash.type
+    assert column_type.dim == ImageHasher.VECTOR_DIM
+
+
+def test_card_master_instantiation_with_vector():
+    """Verify CardMaster can be instantiated with a VECTOR_DIM-sized vector."""
+    vector = [float(i) / ImageHasher.VECTOR_DIM for i in range(ImageHasher.VECTOR_DIM)]
+    card = CardMaster(
+        api_id="test-instantiation",
+        name="Test Card",
+        set_id="test-set",
+        image_hash=vector,
+    )
+    assert card.image_hash is not None
+    assert len(card.image_hash) == ImageHasher.VECTOR_DIM
