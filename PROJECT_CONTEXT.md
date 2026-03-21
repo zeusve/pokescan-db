@@ -86,3 +86,24 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## e36d5a3e: Infraestructura: Redis y Celery (COMPLETED — 2026-03-21T12:34:36Z)
+
+### Files Changed
+M	.env.example
+A	.pytest_cache/v/cache/lastfailed
+M	.pytest_cache/v/cache/nodeids
+M	docker-compose.yml
+M	requirements.txt
+A	src/worker.py
+A	tests/test_infra.py
+
+### New Symbols
+def test_redis_connection():
+def test_celery_app_config():
+def test_celery_broker_uses_env():
+def test_redis_url_from_env():
+
+### Decisions
+- (summary unavailable)
+
