@@ -137,3 +137,37 @@ def client() -> PokemonTCGClient:
 ### Decisions
 - (summary unavailable)
 
+
+## 6db664ff: Visión: Motor de Hashing de Imágenes (OpenCV) (COMPLETED — 2026-03-21T12:51:48Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/nodeids
+A	=1.26.0
+A	=4.3.1
+A	=4.9.0.80
+M	requirements.txt
+M	src/pokemon_client.py
+A	src/vision.py
+M	tests/test_pokemon_client.py
+A	tests/test_vision.py
+
+### New Symbols
+class ImageHasher:
+    Dimensions are defined as class constants (P2 — zero hardcoding).
+    def to_vector(cls, image_bytes: bytes) -> list[float]:
+    def to_phash(cls, image_bytes: bytes) -> str:
+def _make_image(width: int, height: int, color: tuple[int, int, int]) -> bytes:
+def red_image() -> bytes:
+def blue_image() -> bytes:
+def black_image() -> bytes:
+def white_image() -> bytes:
+def tiny_image() -> bytes:
+def large_image() -> bytes:
+class TestToVector:
+    def test_vector_dimensions(self, red_image: bytes) -> None:
+    def test_idempotency(self, red_image: bytes) -> None:
+    def test_different_images_produce_different_vectors(
+
+### Decisions
+- (summary unavailable)
+
