@@ -15,5 +15,9 @@
   "tests/test_db.py::test_vector_column_operations": true,
   "tests/test_db_setup.py::test_async_connection": true,
   "tests/test_db_setup.py::test_async_session_factory": true,
-  "tests/test_pokemon_client.py::test_no_api_key_header": true
+  "tests/test_pokemon_client.py::test_no_api_key_header": true,
+  "tests/test_models.py::test_add_card_to_user_inventory": true,
+  "tests/test_models.py::test_user_card_metadata": true,
+  "tests/test_models.py::test_relationship_navigation": true,
+  "tests/test_models.py::test_inventory_integrity_constraints": true
 }
