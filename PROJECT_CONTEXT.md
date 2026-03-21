@@ -70,3 +70,19 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## e36d5a3e: Infraestructura: Redis y Celery (COMPLETED — 2026-03-21T12:33:26Z)
+
+### Files Changed
+M	.env.example
+M	.pytest_cache/v/cache/nodeids
+M	PROJECT_CONTEXT.md
+M	docker-compose.yml
+M	requirements.txt
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
