@@ -489,3 +489,20 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## caf52420: API: Endpoint de Escaneo (Scan Frame) (COMPLETED — 2026-03-21T14:26:34Z)
+
+### Files Changed
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	PROJECT_CONTEXT.md
+M	src/pokemon_client.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
