@@ -438,3 +438,20 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## 41cbf5bd: API: Dependencia de Usuario Actual (COMPLETED — 2026-03-21T14:15:32Z)
+
+### Files Changed
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	PROJECT_CONTEXT.md
+M	src/pokemon_client.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
