@@ -1,8 +1,15 @@
 [
   "tests/test_health.py::test_health",
+  "tests/test_security.py::test_create_and_decode_token",
+  "tests/test_security.py::test_create_token_does_not_mutate_input",
+  "tests/test_security.py::test_decode_expired_token",
+  "tests/test_security.py::test_decode_invalid_token",
+  "tests/test_security.py::test_decode_tampered_token",
   "tests/test_security.py::test_hash_is_bcrypt_format",
   "tests/test_security.py::test_hash_is_nondeterministic",
   "tests/test_security.py::test_hash_not_plaintext",
+  "tests/test_security.py::test_token_contains_custom_claims",
+  "tests/test_security.py::test_token_with_custom_expiry",
   "tests/test_security.py::test_verify_correct_password",
   "tests/test_security.py::test_verify_wrong_password"
 ]
