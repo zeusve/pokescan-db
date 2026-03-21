@@ -225,3 +225,37 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## a8d61df7: Modelo de Datos: Usuarios (COMPLETED — 2026-03-21T13:52:08Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/lastfailed
+M	.pytest_cache/v/cache/nodeids
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	alembic/env.py
+A	alembic/versions/c10345f90d5a_create_users_table.py
+A	src/models.py
+M	src/pokemon_client.py
+A	tests/test_models.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+def upgrade() -> None:
+def downgrade() -> None:
+class User(Base):
+class CardMaster(Base):
+def _random_email() -> str:
+def _random_username() -> str:
+async def test_create_user():
+async def test_user_email_uniqueness():
+async def test_user_username_uniqueness():
+async def test_user_default_values():
+def _random_api_id() -> str:
+async def test_create_card_master():
+async def test_card_api_id_uniqueness():
+
+### Decisions
+- (summary unavailable)
+
