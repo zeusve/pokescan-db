@@ -210,3 +210,18 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## a8d61df7: Modelo de Datos: Usuarios (COMPLETED — 2026-03-21T13:19:43Z)
+
+### Files Changed
+M	PROJECT_CONTEXT.md
+M	alembic/env.py
+M	src/pokemon_client.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
