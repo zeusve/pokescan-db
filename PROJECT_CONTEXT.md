@@ -107,3 +107,33 @@ def test_redis_url_from_env():
 ### Decisions
 - (summary unavailable)
 
+
+## 721366bb: Servicio: Cliente Pokémon TCG API (COMPLETED — 2026-03-21T12:38:15Z)
+
+### Files Changed
+M	.env.example
+M	.pytest_cache/v/cache/nodeids
+M	requirements.txt
+A	src/pokemon_client.py
+A	tests/test_pokemon_client.py
+
+### New Symbols
+class PokemonTCGClientError(Exception):
+class CardNotFoundError(PokemonTCGClientError):
+class RateLimitExceededError(PokemonTCGClientError):
+class PokemonTCGClient:
+    def __init__(
+    def _build_headers(self) -> dict[str, str]:
+    async def _ensure_client(self) -> httpx.AsyncClient:
+    async def close(self) -> None:
+    async def __aenter__(self) -> "PokemonTCGClient":
+    async def __aexit__(self, *exc: Any) -> None:
+    async def _request_with_retry(self, method: str, url: str, **kwargs: Any) -> httpx.Response:
+    async def get_card(self, card_id: str) -> dict[str, Any]:
+    async def search_cards(self, query: str) -> list[dict[str, Any]]:
+def _mock_response(status_code: int = 200, json_data: dict = None, headers: dict = None) -> httpx.Response:
+def client() -> PokemonTCGClient:
+
+### Decisions
+- (summary unavailable)
+
