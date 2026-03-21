@@ -171,3 +171,28 @@ class TestToVector:
 ### Decisions
 - (summary unavailable)
 
+
+## b5558977: Configurar SQLAlchemy y Alembic (COMPLETED — 2026-03-21T13:13:57Z)
+
+### Files Changed
+A	alembic.ini
+A	alembic/env.py
+A	alembic/script.py.mako
+M	requirements.txt
+A	src/database.py
+M	src/pokemon_client.py
+A	tests/test_db_setup.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+def run_migrations_offline() -> None:
+def do_run_migrations(connection) -> None:
+async def run_migrations_online() -> None:
+class Base(DeclarativeBase):
+async def get_db():
+async def test_async_connection():
+async def test_async_session_factory():
+
+### Decisions
+- (summary unavailable)
+
