@@ -295,3 +295,21 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## 6db664ff: Visión: Motor de Hashing de Imágenes (OpenCV) (COMPLETED — 2026-03-21T13:57:51Z)
+
+### Files Changed
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	PROJECT_CONTEXT.md
+M	alembic/env.py
+M	src/pokemon_client.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
