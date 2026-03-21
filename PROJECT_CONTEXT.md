@@ -331,3 +331,30 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## ea89d79f: API: Endpoints de Autenticación (COMPLETED — 2026-03-21T14:04:51Z)
+
+### Files Changed
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	alembic/env.py
+M	src/pokemon_client.py
+A	src/schemas.py
+A	tests/test_auth.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+class UserBase(BaseModel):
+class UserCreate(UserBase):
+class UserRead(UserBase):
+class LoginRequest(BaseModel):
+class Token(BaseModel):
+async def test_register_user(client):
+async def test_register_duplicate_email(client):
+async def test_login_success(client):
+async def test_login_invalid_password(client):
+
+### Decisions
+- (summary unavailable)
+
