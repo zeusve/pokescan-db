@@ -644,3 +644,30 @@ def test_card_crud_routes_present():
 ### Decisions
 - (summary unavailable)
 
+
+## 0cb6f960: Tests: Integration Tests E2E (COMPLETED — 2026-03-21T16:30:32Z)
+
+### Files Changed
+A	tests/conftest.py
+A	tests/test_e2e_flow.py
+
+### New Symbols
+def _uid() -> str:
+def test_user_data():
+async def db_session():
+async def test_user(db_session):
+async def card_master(db_session):
+async def client(test_user):
+    async def _override():
+def _uid() -> str:
+async def e2e_db():
+async def e2e_user(e2e_db):
+async def e2e_card_master(e2e_db):
+async def e2e_client():
+def _auth_headers(user) -> dict:
+async def test_full_user_workflow(e2e_client, e2e_user, e2e_card_master):
+async def test_unauthorized_collection_access(e2e_client):
+
+### Decisions
+- (summary unavailable)
+
