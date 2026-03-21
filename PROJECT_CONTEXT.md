@@ -33,3 +33,24 @@ def test_vector_column_operations(db_connection):
 ### Decisions
 - (summary unavailable)
 
+
+## 6a75ad9f: Seguridad: Hashing de contraseñas (COMPLETED — 2026-03-21T12:20:58Z)
+
+### Files Changed
+A	.pytest_cache/v/cache/nodeids
+M	requirements.txt
+A	src/security.py
+A	tests/test_security.py
+
+### New Symbols
+def hash_password(password: str) -> str:
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+def test_hash_not_plaintext():
+def test_hash_is_bcrypt_format():
+def test_hash_is_nondeterministic():
+def test_verify_correct_password():
+def test_verify_wrong_password():
+
+### Decisions
+- (summary unavailable)
+
