@@ -29,5 +29,19 @@
   "tests/test_security.py::test_token_contains_custom_claims",
   "tests/test_security.py::test_token_with_custom_expiry",
   "tests/test_security.py::test_verify_correct_password",
-  "tests/test_security.py::test_verify_wrong_password"
+  "tests/test_security.py::test_verify_wrong_password",
+  "tests/test_vision.py::TestToPhash::test_phash_different_images",
+  "tests/test_vision.py::TestToPhash::test_phash_format",
+  "tests/test_vision.py::TestToPhash::test_phash_idempotency",
+  "tests/test_vision.py::TestToPhash::test_phash_invalid_bytes_raises",
+  "tests/test_vision.py::TestToVector::test_black_image_all_zeros",
+  "tests/test_vision.py::TestToVector::test_different_images_produce_different_vectors",
+  "tests/test_vision.py::TestToVector::test_idempotency",
+  "tests/test_vision.py::TestToVector::test_invalid_bytes_raises",
+  "tests/test_vision.py::TestToVector::test_large_image",
+  "tests/test_vision.py::TestToVector::test_output_type_is_list_of_floats",
+  "tests/test_vision.py::TestToVector::test_tiny_image",
+  "tests/test_vision.py::TestToVector::test_values_normalized_zero_to_one",
+  "tests/test_vision.py::TestToVector::test_vector_dimensions",
+  "tests/test_vision.py::TestToVector::test_white_image_all_ones"
 ]
