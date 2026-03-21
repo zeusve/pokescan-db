@@ -1,5 +1,13 @@
 [
+  "tests/test_db.py::test_connection_succeeds",
+  "tests/test_db.py::test_pgvector_extension_available",
+  "tests/test_db.py::test_vector_column_operations",
   "tests/test_health.py::test_health",
+  "tests/test_infra.py::test_celery_app_config",
+  "tests/test_infra.py::test_celery_broker_uses_env",
+  "tests/test_infra.py::test_env_redis_url_exists",
+  "tests/test_infra.py::test_redis_connection",
+  "tests/test_infra.py::test_redis_url_from_env",
   "tests/test_security.py::test_create_and_decode_token",
   "tests/test_security.py::test_create_token_does_not_mutate_input",
   "tests/test_security.py::test_decode_expired_token",

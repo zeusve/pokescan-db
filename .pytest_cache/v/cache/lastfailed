@@ -1,0 +1,3 @@
+{
+  "tests/test_infra.py::test_env_redis_url_exists": true
+}
