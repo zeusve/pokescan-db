@@ -1,6 +1,7 @@
 """FastAPI application with card collection CRUD endpoints."""
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
+from fastapi.responses import ORJSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
@@ -30,6 +31,16 @@ async def create_card(
             detail="Card master not found",
         )
     return card
+
+
+@app.get("/cards/sync", response_class=ORJSONResponse)
+async def sync_cards(
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """Return all card_master_ids owned by the user for lightweight sync."""
+    ids = await crud.get_card_ids_for_sync(db, current_user.id)
+    return ORJSONResponse(content=ids)
 
 
 @app.get("/cards/", response_model=list[CardRead])

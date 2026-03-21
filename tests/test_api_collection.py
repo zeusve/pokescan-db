@@ -177,6 +177,85 @@ async def test_delete_card(client, card_master):
 
 
 # ---------------------------------------------------------------------------
+# Sync endpoint
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_sync_returns_card_master_ids(client, card_master):
+    """GET /cards/sync returns a flat list of card_master_ids."""
+    await client.post(
+        "/cards/",
+        json={"card_master_id": card_master.id, "condition": "MINT", "quantity": 2},
+    )
+    await client.post(
+        "/cards/",
+        json={"card_master_id": card_master.id, "condition": "PLAYED", "quantity": 1},
+    )
+
+    response = await client.get("/cards/sync")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) >= 2
+    assert all(mid == card_master.id for mid in data)
+
+
+@pytest.mark.asyncio
+async def test_sync_empty_collection(client):
+    """GET /cards/sync returns an empty list for a fresh user."""
+    response = await client.get("/cards/sync")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+@pytest.mark.asyncio
+async def test_sync_data_isolation(db_session, card_master):
+    """GET /cards/sync only returns the authenticated user's card IDs."""
+    user_a = User(
+        email=f"sync-a-{_uid()}@test.com",
+        username=f"sync-a-{_uid()}",
+        hashed_password=hash_password("testpass"),
+    )
+    user_b = User(
+        email=f"sync-b-{_uid()}@test.com",
+        username=f"sync-b-{_uid()}",
+        hashed_password=hash_password("testpass"),
+    )
+    db_session.add_all([user_a, user_b])
+    await db_session.commit()
+    await db_session.refresh(user_a)
+    await db_session.refresh(user_b)
+
+    # User A creates a card
+    async def _as_user_a():
+        return user_a
+
+    app.dependency_overrides[get_current_user] = _as_user_a
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as client_a:
+        await client_a.post(
+            "/cards/",
+            json={"card_master_id": card_master.id, "condition": "MINT"},
+        )
+
+    # User B should see nothing
+    async def _as_user_b():
+        return user_b
+
+    app.dependency_overrides[get_current_user] = _as_user_b
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as client_b:
+        resp = await client_b.get("/cards/sync")
+        assert resp.status_code == 200
+        assert resp.json() == []
+
+    app.dependency_overrides.clear()
+
+
+# ---------------------------------------------------------------------------
 # Security: unauthenticated access
 # ---------------------------------------------------------------------------
 
@@ -190,6 +269,7 @@ async def test_unauthorized_access():
     ) as anon:
         for method, url in [
             ("GET", "/cards/"),
+            ("GET", "/cards/sync"),
             ("POST", "/cards/"),
             ("GET", "/cards/1"),
             ("PATCH", "/cards/1"),

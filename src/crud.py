@@ -8,6 +8,14 @@ from .models import CardMaster, UserCard
 from .schemas import CardCreate, CardUpdate
 
 
+async def get_card_ids_for_sync(db: AsyncSession, user_id: int) -> list[int]:
+    """Return raw card_master_id values for all cards owned by a user."""
+    result = await db.execute(
+        select(UserCard.card_master_id).where(UserCard.user_id == user_id)
+    )
+    return list(result.scalars().all())
+
+
 async def get_cards(
     db: AsyncSession, user_id: int, *, limit: int = 20, offset: int = 0
 ) -> list[UserCard]:
