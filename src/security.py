@@ -2,7 +2,7 @@ import os
 from datetime import datetime, timedelta
 from typing import Optional
 
-from fastapi import Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -76,3 +76,6 @@ async def get_current_user(
             detail="User not found",
         )
     return user
+
+
+router = APIRouter(prefix="/auth", tags=["auth"])

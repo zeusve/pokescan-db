@@ -1,5 +1,7 @@
 """Vision module: deterministic image hashing for visual similarity search."""
 
+from fastapi import APIRouter
+
 import cv2
 import imagehash
 import numpy as np
@@ -53,3 +55,6 @@ class ImageHasher:
         rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         pil_image = Image.fromarray(rgb)
         return str(imagehash.phash(pil_image))
+
+
+router = APIRouter(prefix="/scan", tags=["scan"])
