@@ -612,3 +612,35 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## dc90e850: Integración: Registro de Routers (COMPLETED — 2026-03-21T16:24:21Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/nodeids
+M	src/main.py
+A	src/routers/__init__.py
+A	src/routers/collection.py
+M	src/security.py
+M	src/vision.py
+A	tests/test_router_registration.py
+
+### New Symbols
+async def create_card(
+async def sync_cards(
+async def list_cards(
+async def get_card(
+async def update_card(
+async def delete_card(
+def _route_paths() -> list[str]:
+def test_health_route_registered():
+def test_auth_router_exists():
+    """security.py exports an APIRouter with prefix /auth."""
+def test_scan_router_exists():
+    """vision.py exports an APIRouter with prefix /scan."""
+def test_collection_router_exists():
+    """routers/collection.py exports an APIRouter with prefix /cards."""
+def test_card_crud_routes_present():
+
+### Decisions
+- (summary unavailable)
+
