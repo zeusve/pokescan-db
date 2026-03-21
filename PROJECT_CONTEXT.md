@@ -568,3 +568,29 @@ async def test_list_cards_empty(client):
 ### Decisions
 - (summary unavailable)
 
+
+## bb1daaba: API: Endpoints de Colección (COMPLETED — 2026-03-21T15:59:52Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/nodeids
+A	tests/test_api_collection.py
+
+### New Symbols
+def _uid() -> str:
+async def db_session():
+async def test_user(db_session):
+async def card_master(db_session):
+async def client(test_user):
+    async def _override():
+async def test_create_card(client, card_master):
+async def test_list_cards(client, card_master):
+async def test_update_card(client, card_master):
+async def test_delete_card(client, card_master):
+async def test_unauthorized_access():
+async def test_access_other_user_card(db_session, card_master):
+    async def _as_user_a():
+        async def _as_user_b():
+
+### Decisions
+- (summary unavailable)
+
