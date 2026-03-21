@@ -420,3 +420,21 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## 1ab2bb41: Modelo de Datos: User Cards (Inventario) (COMPLETED — 2026-03-21T14:15:13Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/lastfailed
+M	.pytest_cache/v/cache/nodeids
+D	=1.26.0
+D	=4.3.1
+D	=4.9.0.80
+M	src/pokemon_client.py
+M	tests/test_pokemon_client.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
