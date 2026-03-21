@@ -14,3 +14,22 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## b917af4b: Configurar PostgreSQL con pgvector (COMPLETED — 2026-03-21T12:10:34Z)
+
+### Files Changed
+A	.env.example
+A	docker-compose.yml
+A	init.sql
+M	requirements.txt
+A	tests/test_db.py
+
+### New Symbols
+def db_connection():
+def test_connection_succeeds(db_connection):
+def test_pgvector_extension_available(db_connection):
+def test_vector_column_operations(db_connection):
+
+### Decisions
+- (summary unavailable)
+
