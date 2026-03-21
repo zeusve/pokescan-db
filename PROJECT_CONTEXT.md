@@ -594,3 +594,21 @@ async def test_access_other_user_card(db_session, card_master):
 ### Decisions
 - (summary unavailable)
 
+
+## 96379212: API: Endpoint de Sincronización Ligera (COMPLETED — 2026-03-21T16:19:24Z)
+
+### Files Changed
+M	.pytest_cache/v/cache/lastfailed
+M	.pytest_cache/v/cache/nodeids
+A	=3.9.0
+M	requirements.txt
+M	src/crud.py
+M	src/main.py
+M	tests/test_api_collection.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
