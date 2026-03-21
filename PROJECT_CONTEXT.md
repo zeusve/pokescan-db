@@ -54,3 +54,19 @@ def test_verify_wrong_password():
 ### Decisions
 - (summary unavailable)
 
+
+## a71731a4: Seguridad: Utilidades JWT (COMPLETED — 2026-03-21T12:30:32Z)
+
+### Files Changed
+M	.env.example
+M	.pytest_cache/v/cache/nodeids
+M	requirements.txt
+M	src/security.py
+M	tests/test_security.py
+
+### New Symbols
+none
+
+### Decisions
+- (summary unavailable)
+
