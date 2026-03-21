@@ -540,3 +540,31 @@ none
 ### Decisions
 - (summary unavailable)
 
+
+## 6cd2e208: CRUD: Gestión de Colección (COMPLETED — 2026-03-21T15:53:38Z)
+
+### Files Changed
+A	src/crud.py
+M	src/main.py
+A	tests/test_crud.py
+
+### New Symbols
+async def get_cards(
+async def get_card(
+async def create_card(
+async def update_card(
+async def delete_card(
+def _uid() -> str:
+async def db_session():
+async def test_user(db_session):
+async def card_master(db_session):
+async def client(test_user):
+    async def _override_get_current_user():
+async def test_create_card_success(client, card_master, test_user):
+async def test_create_card_nonexistent_master(client):
+async def test_create_card_invalid_payload(client):
+async def test_list_cards_empty(client):
+
+### Decisions
+- (summary unavailable)
+
