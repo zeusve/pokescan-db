@@ -1,9 +1,5 @@
 {
   "tests/test_infra.py::test_env_redis_url_exists": true,
-  "tests/test_auth.py::test_register_user": true,
-  "tests/test_auth.py::test_register_duplicate_email": true,
-  "tests/test_auth.py::test_login_success": true,
-  "tests/test_auth.py::test_login_invalid_password": true,
   "tests/test_crud.py::test_create_card_success": true,
   "tests/test_crud.py::test_create_card_nonexistent_master": true,
   "tests/test_crud.py::test_create_card_invalid_payload": true,
